@@ -75,7 +75,7 @@ class UserHelper {
       print(response.body);
       var code = ResponseModel.fromJson(jsonDecode(response.body)).responseCode;
       if (code == "SUCCESS"){
-        await login(user.userName!, user.password!);
+        await login(user.userName, user.password!);
         return true;
       }
       else{
