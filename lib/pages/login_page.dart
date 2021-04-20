@@ -31,8 +31,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/img_login.png",
+                  "assets/images/img_books_2.jpeg",
                   fit: BoxFit.cover,
+                  height: 400,
+                  width: MediaQuery.of(context).size.width,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),

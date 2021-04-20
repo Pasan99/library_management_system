@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
               fit: BoxFit.cover,
               colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
               image: AssetImage(
-                "assets/images/img_books.jpg",
+                "assets/images/img_books_2.jpeg",
               ),
             ),
           ),

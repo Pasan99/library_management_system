@@ -17,12 +17,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   FocusNode nodeB= FocusNode();
   FocusNode nodeC = FocusNode();
   FocusNode node2 = FocusNode();
+  FocusNode node3 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Register"),
         elevation: 0,
       ),
       body: Container(
@@ -33,8 +34,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/img_login.png",
+                  "assets/images/img_books_2.jpeg",
                   fit: BoxFit.cover,
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -143,9 +146,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ),
                               Container(height: 16,),
                               TextFormField(
+                                onFieldSubmitted: (val){
+                                  FocusScope.of(context).requestFocus(node3);
+                                },
                                 controller: model.password,
                                 focusNode: node2,
-                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.visiblePassword,
                                 // The validator receives the text that the user has entered.
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -157,6 +164,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                     hintText: "*********",
                                     border: OutlineInputBorder(),
                                     labelText: "Password",
+                                    focusColor: Colors.black
+                                ),
+                                obscureText: true,
+                              ),
+                              Container(height: 16,),
+                              TextFormField(
+                                focusNode: node3,
+                                keyboardType: TextInputType.visiblePassword,
+                                // The validator receives the text that the user has entered.
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Confirm Password cannot be empty';
+                                  }
+                                  if (value != model.password.text){
+                                    return 'Password did not matched';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "*********",
+                                    border: OutlineInputBorder(),
+                                    labelText: "Confirm Password",
                                     focusColor: Colors.black
                                 ),
                                 obscureText: true,
