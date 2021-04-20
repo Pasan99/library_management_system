@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppColors{
-  static final Color MAIN_COLOR = HexColor("#6C63FF");
+  static final Color MAIN_COLOR = HexColor("#C45C00");
   static final Color LIGHT_MAIN_COLOR = HexColor("#232323");
   static final Color LIGHT_RED_COLOR = HexColor("#FF6044");
   static final Color BACK_WHITE_COLOR = Colors.white;

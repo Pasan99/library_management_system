@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
         CurvedAnimation(parent: _controller, curve: Curves.bounceIn);
 
     _controller.forward();
-    Future.delayed(Duration(milliseconds: 800)).then((value) async {
+    Future.delayed(Duration(milliseconds: 1600)).then((value) async {
       Navigator.of(context).pop();
       if (await UserHelper().getCurrentUser() == null){
         AutoRouter.of(context).popAndPush(LoginPageRoute());
@@ -53,44 +53,32 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-          color: AppColors.MAIN_COLOR,
+    return Stack(
+      children: [
+        Container(
           child: Center(
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ScaleTransition(
-                    scale: _animation,
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: MediaQuery.of(context).size.height / 3,
-                        ),
-                        Image.asset(
-                          "assets/images/ic_logo.png",
-                          width: MediaQuery.of(context).size.width,
-                          height: 200,
-                        ),
-                        Container(
-                          height: 20,
-                        ),
-                        Text(
-                          "VEHICLE STATS",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.LIGHT_MAIN_COLOR),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32, right: 32, left: 32),
-                  child: Text("Powered by TeamTriangle", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12, color: AppColors.LIGHT_MAIN_COLOR),),
-                )
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Library", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),),
+                Text("App", style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white)),
               ],
+            )
+          ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+              image: AssetImage(
+                "assets/images/img_books.jpg",
+              ),
             ),
           ),
-        ));
+        )
+
+      ],
+    );
   }
 }

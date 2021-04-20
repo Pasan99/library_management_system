@@ -104,26 +104,37 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(content: Text('Processing Data')));
-                                    bool result = await model.login();
-                                    if (result){
-                                      AutoRouter.of(context).popAndPush(HomePageRoute());
-                                    }
-                                    else{
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
-                                    }
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: AppColors.MAIN_COLOR, // background
-                                  onPrimary: Colors.white, // foreground
-                                ),
-                                child: Text('Login'),
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(content: Text('Processing Data')));
+                                        bool result = await model.login();
+                                        if (result){
+                                          AutoRouter.of(context).popAndPush(HomePageRoute());
+                                        }
+                                        else{
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
+                                        }
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: AppColors.MAIN_COLOR, // background
+                                      onPrimary: Colors.white, // foreground
+                                    ),
+                                    child: Text('Login'),
+                                  ),
+                                  Container(width: 16,),
+                                  TextButton(
+                                    onPressed: () {
+                                      AutoRouter.of(context).popAndPush(RegistrationPageRoute());
+                                    },
+                                    child: Text('Register', style: TextStyle(color: AppColors.MAIN_COLOR),),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

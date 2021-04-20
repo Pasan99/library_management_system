@@ -70,10 +70,12 @@ class UserHelper {
     try {
       String url1 = AppConstants.BASE_URL + AppConstants.REGISTER_PATH;
       var url = Uri.parse(url1);
+      print(jsonEncode(user));
       http.Response response = await http.post(url, headers: {"Content-Type": "application/json"}, body: jsonEncode(user));
       print(response.body);
       var code = ResponseModel.fromJson(jsonDecode(response.body)).responseCode;
       if (code == "SUCCESS"){
+        await login(user.userName!, user.password!);
         return true;
       }
       else{
