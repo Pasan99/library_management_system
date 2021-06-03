@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:library_management_system/models/constants.dart';
 import 'package:library_management_system/models/response_model.dart';
 import 'package:library_management_system/models/user_model.dart';
@@ -54,6 +51,7 @@ class UserHelper {
         _user = UserModel.fromJson(userModel);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString("current_user", jsonEncode(_user));
+        _oldUser = _user;
         return true;
       }
       else{
@@ -75,7 +73,7 @@ class UserHelper {
       print(response.body);
       var code = ResponseModel.fromJson(jsonDecode(response.body)).responseCode;
       if (code == "SUCCESS"){
-        await login(user.userName, user.password!);
+        await login(user.userName == null ? user.userId! : user.userName!, user.password!);
         return true;
       }
       else{

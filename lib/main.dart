@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Library Management System',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: AppColors.MAIN_COLOR,
         primaryColorLight: AppColors.LIGHT_MAIN_COLOR,

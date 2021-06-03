@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:library_management_system/routes/router.gr.dart';
 import 'package:library_management_system/values/colors.dart';
 import 'package:library_management_system/viewmodels/login_page_viewmodel.dart';
@@ -15,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   FocusNode node1 = FocusNode();
   FocusNode node2 = FocusNode();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +76,19 @@ class _LoginPageState extends State<LoginPage> {
                             TextFormField(
                               controller: model.password,
                               onFieldSubmitted: (val) async {
-                                if (_formKey.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(content: Text('Processing Data')));
-                                  bool result = await model.login();
-                                  if (result){
-                                    AutoRouter.of(context).pop();
-                                    AutoRouter.of(context).popAndPush(HomePageRoute());
-                                  }
-                                  else{
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
-                                  }
-                                }
+                                // if (_formKey.currentState!.validate()) {
+                                //   ScaffoldMessenger.of(context)
+                                //       .showSnackBar(SnackBar(content: Text('Processing Data')));
+                                //   bool result = await model.login();
+                                //   if (result){
+                                //     AutoRouter.of(context).pop();
+                                //     AutoRouter.of(context).popAndPush(HomePageRoute());
+                                //   }
+                                //   else{
+                                //     ScaffoldMessenger.of(context)
+                                //         .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
+                                //   }
+                                // }
                               },
                               focusNode: node2,
                               keyboardType: TextInputType.emailAddress,
@@ -109,11 +112,17 @@ class _LoginPageState extends State<LoginPage> {
                               child: Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () async {
+                                    onPressed: !isLoading ? () async {
                                       if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(content: Text('Processing Data')));
                                         bool result = await model.login();
+                                        setState(() {
+                                          isLoading = false;
+                                        });
                                         if (result){
                                           AutoRouter.of(context).popAndPush(HomePageRoute());
                                         }
@@ -122,12 +131,12 @@ class _LoginPageState extends State<LoginPage> {
                                               .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
                                         }
                                       }
-                                    },
+                                    } : null,
                                     style: ElevatedButton.styleFrom(
                                       primary: AppColors.MAIN_COLOR, // background
                                       onPrimary: Colors.white, // foreground
                                     ),
-                                    child: Text('Login'),
+                                    child: isLoading ? SpinKitFadingCircle(size: 24, color: AppColors.TEXT_WHITE,) :  Text('Login'),
                                   ),
                                   Container(width: 16,),
                                   TextButton(

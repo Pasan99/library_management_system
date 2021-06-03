@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:library_management_system/models/book_model.dart';
 import 'package:library_management_system/models/constants.dart';
@@ -5,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:library_management_system/models/response_model.dart';
+import 'package:library_management_system/utilities/user_helper.dart';
 
 class HomePageViewModel extends ChangeNotifier{
   List<BookModel>? books;
@@ -19,7 +22,12 @@ class HomePageViewModel extends ChangeNotifier{
     try {
       String url1 = AppConstants.BASE_URL + AppConstants.LIST_ALL_BOOKS_PATH;
       var url = Uri.parse(url1);
-      http.Response response = await http.get(url);
+      http.Response response = await http.get(
+          url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer ${UserHelper().getCachedUser()!.jwt}',
+        },
+      );
       print(response.body);
       var booksArray = ResponseModel.fromJson(jsonDecode(response.body)).responseData as List<dynamic>;
       booksArray.forEach((element) {
@@ -38,7 +46,12 @@ class HomePageViewModel extends ChangeNotifier{
     try {
       String url1 = AppConstants.BASE_URL + AppConstants.RESERVE_BOOK_PATH + "?bookId=$id";
       var url = Uri.parse(url1);
-      http.Response response = await http.get(url);
+      http.Response response = await http.get(
+          url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer ${UserHelper().getCachedUser()!.jwt}',
+        },
+      );
       print(response.body);
     }
     catch(e){

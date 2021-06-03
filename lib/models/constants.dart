@@ -1,5 +1,5 @@
 class AppConstants{
-  static final String BASE_URL = "http://13.58.229.103:8080";
+  static final String BASE_URL = "http://40.122.65.118:8903";
 
   static final String LIST_ALL_BOOKS_PATH = "/book/all";
   static final String RESERVE_BOOK_PATH = "/book/reserveBook";

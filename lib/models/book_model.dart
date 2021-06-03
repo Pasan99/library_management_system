@@ -15,6 +15,8 @@ class BookModel {
   final int authorId;
   @JsonKey(name: "authorName")
   final String authorName;
+  @JsonKey(includeIfNull: false, defaultValue: false, ignore: true)
+  bool isReserving = false;
 
 
   BookModel({required this.bookId, required this.description, required this.code, required this.count, required this.authorId, required this.authorName});

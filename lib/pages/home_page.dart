@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:library_management_system/routes/router.gr.dart';
 import 'package:library_management_system/utilities/user_helper.dart';
+import 'package:library_management_system/values/colors.dart';
 import 'package:library_management_system/viewmodels/home_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -83,10 +85,16 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                             flex: 1,
                             child: ElevatedButton(
-                              onPressed: book.count > 0 ? (){
-                                model.reserveBook(book.bookId);
+                              onPressed: book.count > 0 && !book.isReserving ? () async {
+                                setState(() {
+                                  book.isReserving = true;
+                                });
+                                await model.reserveBook(book.bookId);
+                                setState(() {
+                                  book.isReserving = false;
+                                });
                               } : null,
-                              child: Text("${book.count > 0 ? "Reserve" : "Reserved"} (${book.count})", style: TextStyle(fontSize: 12),),
+                              child: book.isReserving ? SpinKitFadingCircle(size: 24, color: AppColors.TEXT_WHITE,) : Text("${book.count > 0 ? "Reserve" : "Reserved"} (${book.count})", style: TextStyle(fontSize: 12),),
                             )
                         )
                       ],
