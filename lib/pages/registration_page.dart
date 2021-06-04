@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:library_management_system/routes/router.gr.dart';
 import 'package:library_management_system/values/colors.dart';
 import 'package:library_management_system/viewmodels/registration_page_viewmodel.dart';
@@ -18,6 +19,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   FocusNode nodeC = FocusNode();
   FocusNode node2 = FocusNode();
   FocusNode node3 = FocusNode();
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -193,25 +196,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                                 child: ElevatedButton(
-                                  onPressed: () async {
+                                  onPressed: !_isLoading? () async {
                                     if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(content: Text('Processing Data')));
-                                      bool result = await model.register();
-                                      if (result){
+                                      String result = await model.register();
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                      if (result.toLowerCase().contains("success")){
                                         AutoRouter.of(context).popAndPush(HomePageRoute());
                                       }
                                       else{
+                                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
+                                            .showSnackBar(SnackBar(content: Text(result)));
                                       }
                                     }
-                                  },
+                                  } : null,
                                   style: ElevatedButton.styleFrom(
                                     primary: AppColors.MAIN_COLOR, // background
                                     onPrimary: Colors.white, // foreground
                                   ),
-                                  child: Text('Register'),
+                                  child: _isLoading ? SpinKitFadingCircle(size: 24, color: AppColors.TEXT_WHITE,) : Text('Register'),
                                 ),
                               ),
                             ],

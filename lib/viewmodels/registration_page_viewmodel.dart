@@ -9,7 +9,7 @@ class RegistrationPageViewModel extends ChangeNotifier{
   TextEditingController lastName = TextEditingController();
   TextEditingController contact = TextEditingController();
 
-  Future<bool> register() async {
+  Future<String> register() async {
     String userNameText = userName.text.trim();
     String passwordText = password.text.trim();
     String firstNameText = firstName.text.trim();

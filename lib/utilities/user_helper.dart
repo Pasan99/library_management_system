@@ -41,9 +41,12 @@ class UserHelper {
 
   Future<bool> login(String userName, String password) async {
     try {
-      String url1 = AppConstants.BASE_URL + AppConstants.LOGIN_PATH + "?password=$password&userId=$userName";
+      String url1 = AppConstants.BASE_URL + AppConstants.LOGIN_PATH;
       var url = Uri.parse(url1);
-      http.Response response = await http.get(url);
+      http.Response response = await http.post(url, headers: {"Content-Type": "application/json"}, body: jsonEncode({
+        "userName" : userName,
+        "password" : password
+      }));
       print(response.body);
       var code = ResponseModel.fromJson(jsonDecode(response.body)).responseCode;
       if (code == "SUCCESS"){
@@ -64,7 +67,7 @@ class UserHelper {
     }
   }
 
-  Future<bool> register(UserModel user) async {
+  Future<String> register(UserModel user) async {
     try {
       String url1 = AppConstants.BASE_URL + AppConstants.REGISTER_PATH;
       var url = Uri.parse(url1);
@@ -74,15 +77,15 @@ class UserHelper {
       var code = ResponseModel.fromJson(jsonDecode(response.body)).responseCode;
       if (code == "SUCCESS"){
         await login(user.userName == null ? user.userId! : user.userName!, user.password!);
-        return true;
+        return ResponseModel.fromJson(jsonDecode(response.body)).responseMessage;
       }
       else{
-        return false;
+        return ResponseModel.fromJson(jsonDecode(response.body)).responseMessage;
       }
     }
     catch(e){
       print(e);
-      return false;
+      return e.toString();
     }
   }
 

@@ -127,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                                           AutoRouter.of(context).popAndPush(HomePageRoute());
                                         }
                                         else{
+                                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(content: Text('User name & password did not matched')));
                                         }
